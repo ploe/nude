@@ -1,0 +1,31 @@
+endpoint: 'offers'
+schema: 'POST'
+
+allow: # users with the following attributes set can access this functionality
+- offer_creators
+
+args: # url args
+  # also should implement mandatory and optional
+  render: # these vars are rendered once per response but added
+    expires:
+      format: "[now]" # now could be a builtin var for when the request hit the server
+      +timedelta: {days: 69, hours: 1, minutes: 1, seconds: 1}
+
+data: # posted data
+  mandatory: # these columns must be in each item of the POSTed data
+  - name
+  - amount
+  - price
+  optional: # these columns may be in the data, use the default if not
+    enabled: true
+  render: # these columns are rendered at runtime for each item of POSTed data
+    tax:
+      format: "{data[price]}"
+      "*float": 0.2
+
+driver: # queries are driver specific, all values should be pulled from the defined things
+  document: # POST should always use insert methods
+    name: data.name
+    amount: data.amount
+    enabled: data.enabled
+    expires: args.expires

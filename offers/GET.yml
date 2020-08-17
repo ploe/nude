@@ -1,0 +1,16 @@
+endpoint: 'offers'
+schema: 'GET'
+
+allow: # users with the following attributes set can access this functionality
+- offer_creators
+- offfer_buyers
+- offer_sellers
+
+args: # args are pulled in using the SCHEMA
+
+driver: # queries are driver specific, all values should be pulled from the defined things
+  query: #
+    expires:
+      $gte: now # now should be a builtin datetime that gets initialised at the start of the request
+
+  # for mongo, we should exclude the projection and use the keys in the PROTOCOL data field to fetch the info back

@@ -1,0 +1,35 @@
+---
+# PROTOCOL defines the types and constraints of variable names used
+database: business_app
+endpoint: 'offers'
+info: 'A collection that stores coupons for offers.'
+schema: 'PROTOCOL'
+table: offers
+uri: '_id'
+protocol:
+  _id:
+    type: hex
+  name:
+    type: str
+    search?: "^OFFER_PREFIX"
+    max_len?: 255
+    uppercase?: true
+  amount:
+    type: int
+    above?: 0
+    below?: 101
+    in_range?: [1, 100]
+  price:
+    type: float
+  tax:
+    type: float
+  enabled:
+    type: bool
+    false: ['FALSE', 'false', 'N', 'n', '0']
+    true: ['TRUE', 'true', 'Y', 'y', '1']
+    allow?:
+    - true
+    - false
+  expires:
+    type: datetime
+    after?: now
